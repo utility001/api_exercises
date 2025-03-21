@@ -16,7 +16,6 @@ def fetch_competitions():
     if response.status_code == 200:
         return response.json()
     else:
-        print(f"ERROR: Unable to fetch data (Status Code: {response.status_code})")
         raise Exception(f"API to {response.request.url} request failed")
     
 
