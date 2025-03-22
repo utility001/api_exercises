@@ -16,7 +16,7 @@ def fetch_competitions():
     if response.status_code == 200:
         return response.json()
     else:
-        raise Exception(f"API to {response.request.url} request failed")
+        raise Exception(f"API Request to {response.request.url} request failed")
     
 
 def extract_competition_names(api_response: dict) -> list[str]:
@@ -25,21 +25,20 @@ def extract_competition_names(api_response: dict) -> list[str]:
 
     Args:
         api_resp (dict): The response data containing the competitions
-
     Returns:
-        A list containing all the competition names
+        A list containing all competition names
     """
     competition_names = []
 
     for competition in api_response["competitions"]:
         competition_names.append(competition["name"])
 
-    # This will make sure that there are not duplicate values returned
-    return list(set(competition_names))
+    return competition_names
 
 
-# Example
-u = fetch_competitions()
-v = extract_competition_names(u)
-print(v)
-print(len(v))
+# Get all competitions
+resp = fetch_competitions()
+comp_names = extract_competition_names(resp)
+
+print(len(comp_names))
+print(comp_names)

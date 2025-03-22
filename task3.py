@@ -7,10 +7,8 @@ def fetch_random_users(result_count: int = 500):
     Args:
         result_count (int): The number of user profiles to fetch 
         Default is 500
-
     Returns:
         dict: The JSON response returned by the API
-
     Raises:
         Exception If the request fails
     """
@@ -21,17 +19,15 @@ def fetch_random_users(result_count: int = 500):
     if response.status_code == 200:
         return response.json()
     else:
-        print(f"ERROR: Unable to fetch data (Status Code: {response.status_code})")
-        raise Exception(f"API to {response.request.url} request failed")
+        raise Exception(f"API request to {response.request.url} request failed")
 
 
 def extract_user_profiles(api_response: dict) -> list:
     """
-    Extracts the list of user profiles from the API response
+    Extracts the list of user profiles returned from the API call
 
     Args:
-        api_response (dict): The raw API response from the api
-
+        api_response (dict): The raw json response from the API
     Returns:
         list: A list of user profiles
     """
@@ -45,10 +41,8 @@ def filter_profiles_by_gender(user_profiles: list, gender: str) -> list:
     Args:
         user_profiles (list): List of user profiles
         gender (str): The gender to filter by. Accepted values::: "male" or "female"
-
     Returns:
         list: A list of profiles matching the specified gender
-
     Raises:
         ValueError: If an invalid gender is provided
     """
@@ -68,13 +62,12 @@ def filter_profiles_by_gender(user_profiles: list, gender: str) -> list:
 
 def extract_dates_of_birth(user_profiles: list) -> list:
     """
-    Extracts the date of birth from user profiles.
+    Extracts the date of birth from user profiles
 
     Args:
-        user_profiles (list): List of user profiles.
-
+        user_profiles (list): List of user profiles
     Returns:
-        list: A list containing the date of birth of all profiles.
+        list: A list containing the date of birth of all profiles
     """
     output = []
 
@@ -86,14 +79,12 @@ def extract_dates_of_birth(user_profiles: list) -> list:
 
     
 
-
 def extract_full_names(user_profiles: list) -> list:
     """
     Extracts full names from user profiles
 
     Args:
-        user_profiles (list): List of user profiles.
-
+        user_profiles (list): List of user profiles
     Returns:
         list: A list of full names
     """
@@ -107,30 +98,17 @@ def extract_full_names(user_profiles: list) -> list:
     return output
 
 
-def run_pipeline():
-    """
-    Fetches user data and extracts relevant details
 
-    Returns:
-        tuple: This tuple contains
-            - List of male profiles
-            - List of female profiles
-            - List of dates of birth
-            - List of full names
-    """
-    api_response = fetch_random_users()
-    user_profiles = extract_user_profiles(api_response)
+## USAGE
+api_response = fetch_random_users()
+user_profiles = extract_user_profiles(api_response)
 
-    male_profiles = filter_profiles_by_gender(user_profiles, "male")
-    female_profiles = filter_profiles_by_gender(user_profiles, "female")
-    dates_of_birth = extract_dates_of_birth(user_profiles)
-    full_names = extract_full_names(user_profiles)
+male_profiles = filter_profiles_by_gender(user_profiles, "male")
+female_profiles = filter_profiles_by_gender(user_profiles, "female")
+birth_dates = extract_dates_of_birth(user_profiles)
+full_names = extract_full_names(user_profiles)
 
-    return male_profiles, female_profiles, dates_of_birth, full_names
-
-# Example
-male_users, female_users, birth_dates, full_names = run_pipeline()
-# print(male_users)
-# print(female_users)
+print(male_profiles)
+print(female_profiles)
 print(birth_dates)
 print(full_names)
